@@ -1,0 +1,47 @@
+{
+    "name": "vue-stytem",
+    "version": "4.2.0",
+    "private": true,
+    "scripts": {
+        "dev": "npm run serve",
+        "dev-online": "vue-cli-service serve --mode online",
+        "dev-dai": "vue-cli-service serve --mode dai",
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build",
+        "upload": "node deploy.js",
+        "deploy": "npm run build && npm run upload"
+    },
+    "dependencies": {
+        "@tinymce/tinymce-vue": "^3.2.2",
+        "axios": "^0.18.0",
+        "babel-polyfill": "^6.26.0",
+        "echarts": "^4.8.0",
+        "element-ui": "^2.11.0",
+        "file-saver": "^2.0.2",
+        "jszip": "^3.5.0",
+        "less": "^3.10.3",
+        "less-loader": "^5.0.0",
+        "mavon-editor": "^2.6.17",
+        "md5": "^2.2.1",
+        "moment": "^2.24.0",
+        "qs": "^6.9.4",
+        "shelljs": "^0.8.4",
+        "tinymce": "^5.4.1",
+        "uuid": "^8.3.0",
+        "vue": "^2.6.10",
+        "vue-baidu-map": "^0.21.22",
+        "vue-cropperjs": "^3.0.0",
+        "vue-i18n": "^8.10.0",
+        "vue-quill-editor": "^3.0.6",
+        "vue-router": "^3.0.3",
+        "vue-schart": "^2.0.0",
+        "vuedraggable": "^2.17.0",
+        "vuex": "^3.5.1"
+    },
+    "devDependencies": {
+        "@vue/cli-plugin-babel": "^3.9.0",
+        "@vue/cli-service": "^3.9.0",
+        "terser-webpack-plugin": "^4.2.2",
+        "vue-template-compiler": "^2.6.10"
+    }
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+  <!-- viewport:浏览器窗口
+       width:窗口（viewport）大小，可以指定值，如：600。或特殊值，如device-width为当前设备宽度
+       height：窗口高度与width功能相对应
+       initial-scale：初始缩放比例，页面第一次load的缩放比例
+      maximum-scale：允许用户缩放到的最大比例，
+      minimum-scale：允许用户缩放的最小比例，
+       user-scalable:用户是否可以手动缩放
+  
+  -->
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <link rel="apple-touch-startup-image" href="start.png" />
+  <script type="text/javascript"
+    src="https://webapi.amap.com/maps?v=1.4.15&key=12b0ab5417d5b6828d580dc9671e6cc1"></script>
+  <!--IOS下页面启动加载时显示的图片，避免加载时白屏  -->
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<style>
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    -webkit-overflow-scrolling: touch;
+    overflow-scrolling: touch;
+    /** (https://www.cnblogs.com/xiahj/p/8036419.html)该属性的相关文档 **/
+  }
+</style>
+
+<body>
+  <noscript>
+    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
+      Please enable it to continue.</strong>
+  </noscript>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+
+</html>

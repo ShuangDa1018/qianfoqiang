@@ -1,0 +1,40 @@
+/** common */
+.unit{
+    font-size: 11px;
+}
+.right-down{
+    width:12px ;
+    height: 12px;
+}
+.text-right{
+    text-align: right;
+}
+.color-red{
+color: #FE492C;
+}
+.color-yellow{
+ color: #FF7F1D;
+}
+.font-bold{
+    font-weight: bold;
+}
+.flex-row{
+    display: flex;
+    align-items: center;
+}
+.flex-between{
+    justify-content: space-between;
+}
+.flex-end{
+    justify-content: flex-end;
+}
+.align-top{
+    align-items: flex-start;
+}
+.flex-one{
+    flex: 1;
+}
+img{
+    width: 100%;
+
+}
