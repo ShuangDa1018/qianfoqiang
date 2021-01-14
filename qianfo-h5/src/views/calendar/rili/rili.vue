@@ -24,7 +24,7 @@
         v-for="(item, index) in listMonth"
         :key="index"
       >
-        <div class="listMonth-1" :class="{'today':item[3]=='isday jingri','c-999':item[3]=='unday',}" @click="go(item,index)">
+        <div class="listMonth-1" :class="{'today':item[3]=='isday jingri','c-999':item[3]=='unday','thatday':item[0]==thatday&&item[3]!='unday'&&item[2]==thatyear} " >
          <div :class="{'c-B50201':(index%7==0||(index+1)%7==0),'c-fff':item[3]=='isday jingri'}" >{{ item[0] }}</div> 
           <div class="listMonth-2" v-html="item[1]" :class="{'c-41ce8b':item[1].length>=4&&item[1].indexOf('月')==-1,
             'c-B50201':(solarTerm.indexOf(item[1])>-1||lFtv.indexOf(item[1])>-1),
@@ -63,6 +63,8 @@ export default {
       year: 12,
       month: 12,
       days: 1,
+      thatday:-1,
+      thatyear:null,
       listMonth: [],
       show: false,
       minDate: new Date(1900, 0, 1),
@@ -74,7 +76,8 @@ export default {
     };
   },
   mounted() {
-    this.confirm(this.$route.query.date)
+    this.confirm(this.$route.query.date)//通用方法
+    this.getthatday(this.$route.query.date)//传过老的日期
   },
   methods: {
     change(){
@@ -82,15 +85,9 @@ export default {
         this.confirm()
       }
     },
-    go(item,index){
-      // this.$set(this.listMonth[index],3,'isday jingri')
-      // setTimeout(() => {
-      //   this.$router.push({
-      //   path:'/calendar/calendar',
-      //   // query:yea
-      // })
-      // }, 200);
-      
+    getthatday(time){
+      this.thatday =this.dateFormat(time?Number(time):this.currentDate,'dd')
+      this.thatyear =this.dateFormat(time?Number(time):this.currentDate,'yyyy-MM')
     },
     //获取当日历列表
     confirm(time) {
@@ -99,7 +96,6 @@ export default {
       this.month = a.slice(5,7)
       const list  = rili.drawCld(Number(this.year),Number(this.month)-1).date
       this.listMonth = list
-      console.log(this.listMonth)
     },
     // 格式化
     dateFormat(time, format) {
@@ -231,6 +227,11 @@ export default {
   font-size: 12px;
   line-height: 16px;
   
+}
+.thatday{
+   background: #d87979;
+  border-radius: 4px;
+  color: #fff;
 }
 .c-999{
   opacity: 0.4;

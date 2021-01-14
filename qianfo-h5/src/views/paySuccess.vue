@@ -1,6 +1,17 @@
 <template>
   <div class="content">
-    <img class="buddha-img" src="~@/assets/images/need-delete.png" alt="" />
+    <!-- <img class="buddha-img" src="~@/assets/images/need-delete.png" alt="" /> -->
+    <van-swipe  class="buddha-img" :autoplay="3000">
+        <van-swipe-item v-for="(item,index) in addInfo.donateImages" :key="index">
+            <img  v-lazy="item">
+            <van-image
+            width="100%"
+            height="100%"
+            fit="cover"
+            :src="item"
+          />
+        </van-swipe-item>
+      </van-swipe>
     <div class="background">
       <img
         ref="img"
@@ -8,14 +19,10 @@
         src="~@/assets/images/paySuccess.png"
         alt=""
       />
+      
       <div class="img-text" ref="text">
         <div class="text" @click="go">
-          你的名字你的名字你的名字你的名字你的名字你的名字你的名字你的名字你的名
-          字你的名字你的名字你的名字你的名字你的名字你的名字你的名字你的名字你的名字你的名
-          字你的名字你的名字你的名字你的名字你的名字你的名字你的名字你的名字你的名字你的名字你的名字你的名字
-          你的名字你的名字 你的名字你的名字 你的名字你的名字 你的名字你的名字
-          你的名字你的名字 你的名字你的名字 你的名字你的名字 你的名字你的名字
-          你的名字你的名字 你的名字你的名字
+          {{addInfo.donateThanks}}
         </div>
       </div>
     </div>
@@ -23,12 +30,30 @@
 </template>
 
 <script>
+import { Swipe, SwipeItem  } from "vant";
+import { Image as VanImage } from 'vant';
+import Vue from 'vue'
+Vue.use(Swipe);
+Vue.use(SwipeItem);
+Vue.use(VanImage);
 export default {
-  computed: {},
+  data(){
+    return {
+      buddhaHallId:sessionStorage.getItem('buddhaHallId'),
+      addInfo:{
+        donateThanks:'',
+      },
+    }
+  },
   mounted() {
-    console.log(this.$refs.img.style);
+    this.getData()
   },
   methods: {
+    getData(){
+      this.$axios.get('/app/user/home/buddhaHallConfig',{buddhaHallId:this.buddhaHallId}).then(res=>{
+        this.addInfo=res.data
+      })
+    },
     go() {},
   },
 };
@@ -48,7 +73,8 @@ export default {
 }
 .buddha-img {
   width: 80%;
-  height: auto;
+  height: 40%;
+  /* height: auto; */
 }
 .background {
   margin-top: 20px;
@@ -75,7 +101,7 @@ export default {
   line-height: 26px;
   overflow: hidden;
   padding: 15px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .ceshi {
   background: rgb(0, 255, 136);

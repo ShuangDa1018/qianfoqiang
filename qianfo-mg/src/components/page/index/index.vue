@@ -72,7 +72,7 @@ export default {
                     text: '佛殿佛像统计图',
                     left: 'center'
                 },
-                color: ['#7eacea', '#e15777', '#95ea71', '#ea9b4f', '#7577df', '#be72d8', '#fff'],
+                color: ['#CD8020', '#e15777', '#95ea71', '#ea9b4f', '#7577df', '#be72d8', '#fff'],
                 tooltip: {
                     trigger: 'item',
                     formatter: '{a} <br/>{b} : {c} ({d}%)'

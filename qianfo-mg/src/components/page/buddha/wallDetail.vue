@@ -105,7 +105,7 @@
                             >
                                 <el-input v-model="item.phone" placeholder="请输入联系方式"></el-input>
                             </el-form-item>
-                            <div class="el-icon-circle-close" @click="delAdd(i)" v-show="addInfo.pledgers.length < 4"></div>
+                            <div class="el-icon-circle-close" @click="delAdd(i)" v-show="addInfo.pledgers.length >1 "></div>
                         </div>
                         <div @click="add" v-show="addInfo.pledgers.length < 3" class="el-icon-circle-plus-outline"></div>
                     </div>
@@ -152,7 +152,7 @@ export default {
                 buddhaMusicClassificationId: null,
                 buddhaLanguageMethod: 'RANDOM',
                 buddhaMusicMethod: 'RANDOM',
-                picture: 'http://192.168.10.192:8015/storage/2021/01/04/18/ac93493baf764c9c89ccb20b60dae91bneed-delete.png',
+                picture: '',
                 x: 0,
                 y: 0,
                 pledgers: [{ name: '', phone: '' }]

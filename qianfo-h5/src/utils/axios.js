@@ -8,7 +8,7 @@ http.interceptors.request.use(
     (config) => {
         try {
             /** 这里可以添加一些通用的请求参数，例如：token */
-            config.headers['webToken'] = JSON.parse(sessionStorage.getItem('loginMessage')).token
+            config.headers['webToken'] = JSON.parse(sessionStorage.getItem('qianfoqiang_loginMessage')).token
             // config.headers['weChatId'] = JSON.parse(sessionStorage.getItem('loginMessage')).weChatId
         } catch (e) {}
 

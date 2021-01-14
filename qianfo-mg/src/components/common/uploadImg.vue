@@ -7,6 +7,7 @@
             :show-file-list="false"
             :on-success="onSuccess"
             :accept="accept"
+            :disabled="disabled"
             action="manage/universal/upload"
         >
             <i class="el-icon-plus"></i>

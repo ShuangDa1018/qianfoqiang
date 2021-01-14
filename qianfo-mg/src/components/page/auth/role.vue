@@ -108,6 +108,9 @@ export default {
                 if (it.key == 'createTime') {
                     it.dateFormat = 'YYYY-MM-DD HH:mm:ss';
                 }
+                if(it.key=='buddhaHallId'){
+                    it.searchable=false
+                }
                 
             });
         },

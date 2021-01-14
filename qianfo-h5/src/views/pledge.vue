@@ -2,53 +2,67 @@
   <div class="content">
     <div class="top">
       <div class="name">姓名</div>
-      <input v-model="addInfo.name" class="input-1 input" placeholder="请输入姓名" type="text" />
+      <input
+        v-model="addInfo.name"
+        class="input-1 input"
+        placeholder="请输入姓名"
+        type="text"
+      />
     </div>
     <div class="top">
       <div class="name">联系方式</div>
-      <input v-model="addInfo.phone" class="input-1 input" placeholder="请输入姓名" type="text" />
+      <input
+        v-model="addInfo.phone"
+        class="input-1 input"
+        placeholder="请输入手机号"
+        type="text"
+      />
     </div>
-   <Login></Login>
-    <button @click="go" class="button">确定</button>
+    <Login></Login>
+    <!-- <button @click="go" class="button">确定</button> -->
+    <van-button @click="go" class="button" :loading="loading" type="info">确定</van-button>
   </div>
 </template>
 
 <script>
-import { Toast } from 'vant';
-import Login from './common/login'
+import { Toast, Button } from "vant";
+import Login from "./common/login";
+Vue.use(Button);
 export default {
-  components:{
-    Login
+  components: {
+    Login,
   },
   data() {
     return {
-      addInfo:{
-        buddhaHallId:this.$route.query.buddhaHallId,
-        // buddhaHallId:this.$router.query.buddhaHallId,
+      addInfo: {
+        buddhaHallId: this.$route.query.buddhaHallId,
       },
+      loading: false,
     };
   },
   methods: {
     // 验证
-    check(){
-      if(this.addInfo.name.length>10){
-        Toast('姓名长度不能大于10位')
-        return false
+    check() {
+      if (this.addInfo.name.length > 10) {
+        Toast("姓名长度不能大于10位");
+        return false;
       }
-      if(!this.$filter.checkPhone(this.addInfo.phone)){
-        Toast('请输入正确的手机号')
-          return false
+      if (!this.$filter.checkPhone(this.addInfo.phone)) {
+        Toast("请输入正确的手机号");
+        return false;
       }
-      
-      return true
+
+      return true;
     },
     go() {
-      if(this.check()){
-        // const a= JOSN.parse(sessionStorage.getItem('loginMessgae'))
-        // this.addInfo=Object.assign({},this.addInfo,a)
-        this.$axios.post('/app/accessbuddha',this.addInfo).then(res=>{
-            this.$router.push('/pledgeSuccess')
-      })
+      if (this.check()) {
+        this.loading = true;
+        this.$axios.post("/app/accessbuddha", this.addInfo).then((res) => {
+          this.loading = false;
+          this.$router.push("/pledgeSuccess");
+        }).catch(arr=>{
+          this.loading = false
+        })
       }
     },
   },
@@ -61,7 +75,6 @@ export default {
   padding: 1rem;
   color: #ffeab8;
   font-size: 14px;
-
 }
 .top {
   text-align: left;
@@ -88,8 +101,16 @@ export default {
   height: 44px;
 }
 
-
-
+/deep/.van-button--info {
+  position: fixed;
+  width: 100%;
+  background: #fbbe0c;
+  left: 0;
+  bottom: 0;
+  height: 45px;
+  border: 0;
+  color: #b50201;
+}
 .button {
   position: fixed;
   width: 100%;

@@ -11,18 +11,20 @@ export default {
       addInfo:{
         buddhaHallId:sessionStorage.getItem('buddhaHallId'),
         type:1,
-        weChatCode:sessionStorage.getItem('code')
+        weChatCode:sessionStorage.getItem('qianfoqiang_code')
       },
       userData:null,
     }
   },
-  created(){
-    this.login()
+  mounted(){
+    if(!sessionStorage.getItem('qianfoqiang_loginMessage')){
+       this.login()
+    }
   },
     methods:{
       login(){
         this.$axios.post('/app/user/login',this.addInfo).then(res=>{
-          sessionStorage.setItem('loginMessage',JSON.stringify(res.data))
+          sessionStorage.setItem('qianfoqiang_loginMessage',JSON.stringify(res.data))
         })  
       },
     }

@@ -48,6 +48,12 @@ export default {
         Dialog: () => import('@/components/view/dialog'),
     },
     data() {
+        let check = (rule, value, callback)=>{
+            if(this.$filter.checkPositiveInteger(value)){
+                callback()
+                return
+            }callback( new Error('请输入正确的正整数'))
+        }
         return {
             dataUrl: '/buddhamusic',
             showStatus: false,
@@ -57,7 +63,8 @@ export default {
             rules: {
                 name: [{ required: true, message: '请输入标题', trigger: 'blur' }],
                 buddhaMusicClassificationId: [{ required: true, message: '请输入分类', trigger: 'blur' }],
-                sort: [{ required: true, message: '请输入排序', trigger: 'blur' }],
+                sort: [{ required: true, message: '请输入排序', trigger: 'blur' },
+                {validator:check,trigger:'blur'}],
                 fileUrl: [{ required: true, message: '请输入上传文件', trigger: 'blur' }]
             }
         };
@@ -82,6 +89,9 @@ export default {
                     it.name='佛乐'
                     it.sort=3
                 }
+                if(it.key=='buddhaMusicClassificationId'){
+                    it.optionsUrl='universal/buddhaMusicClassificationList'
+                }
             })
         },
         change(e){
@@ -92,7 +102,7 @@ export default {
             this.addInfo.fileUrl=''
         },
         getOptions(){
-            this.$axios.get('buddhamusicclassification').then(res=>{
+            this.$axios.get('universal/buddhaMusicClassificationList').then(res=>{
                 this.options=res.content.map(it=>{
                     return {value:it.id, label:it.name}
                 })

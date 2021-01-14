@@ -13,6 +13,7 @@ bus.$on('allowMenu', e => {
 });
 
 router.beforeEach((to, from, next) => {
+    console.log(window.location)
     let user = JSON.parse(localStorage.getItem(process.env.VUE_APP_PROJECTNAME + '_user'));
     if (!permissions || !permissions.length) {
         try {

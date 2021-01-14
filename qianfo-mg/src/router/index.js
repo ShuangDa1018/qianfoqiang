@@ -163,13 +163,7 @@ export default new Router({
                     icon: 'el-icon-setting'
                 },
                 children: [
-                    {
-                        path: 'buddhamusic',
-                        component: importPage('buddhamusic/buddhamusic'),
-                        meta: {
-                            title: '佛乐设置'
-                        }
-                    },
+                    
                     {
                         path: 'buddhamusicclassification',
                         component: importPage('buddhamusic/buddhamusicclassification'),
@@ -178,10 +172,10 @@ export default new Router({
                         }
                     },
                     {
-                        path: 'buddhalanguage',
-                        component: importPage('buddhamusic/buddhalanguage'),
+                        path: 'buddhamusic',
+                        component: importPage('buddhamusic/buddhamusic'),
                         meta: {
-                            title: '祝福语设置'
+                            title: '佛乐设置'
                         }
                     },
                     {
@@ -189,6 +183,13 @@ export default new Router({
                         component: importPage('buddhamusic/buddhalanguageclassification'),
                         meta: {
                             title: '祝福语分类'
+                        }
+                    },
+                    {
+                        path: 'buddhalanguage',
+                        component: importPage('buddhamusic/buddhalanguage'),
+                        meta: {
+                            title: '祝福语设置'
                         }
                     },
                     {

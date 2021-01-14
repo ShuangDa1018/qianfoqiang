@@ -38,6 +38,12 @@ export default {
                 if(it.key=='buddhaHallId'){
                     it.optionsUrl='universal/buddhahalllist'
                 }
+                if(it.key=='accessBuddhaStatus'){
+                    it.searchOption=[
+                        {key:'PADDING', name:'预约中',color:''},
+                        {key:'COMPLETE', name:'已认捐 ',color:'#67c23a'}
+                    ]
+                }
             })
         },
         //删除

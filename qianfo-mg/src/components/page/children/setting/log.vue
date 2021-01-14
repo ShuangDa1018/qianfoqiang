@@ -18,8 +18,9 @@ export default {
             tableMeta:{
                 subs:[
                     {name:'用户名',key:'name',type:'TEXT',displayInList:true,searchable:true,},
-                    {name:'登录Ip',key:'ip',type:'TEXT',displayInList:true,searchable:true,},
-                    {name:'登录token',key:'token',type:'TEXT',displayInList:true,searchable:false,},
+                    {name:'用户Ip',key:'ip',type:'TEXT',displayInList:true,searchable:true,},
+                    // {name:'登录token',key:'token',type:'TEXT',displayInList:true,searchable:false,},
+                    {name:'登录时间',key:'createTime',type:'TIMESTAMP',displayInList:true,searchable:false,},
                 ]
             }
         }

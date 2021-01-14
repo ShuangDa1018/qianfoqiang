@@ -1,13 +1,14 @@
 <template>
     <div>
         <el-upload
-            v-if="!fileData&&!disabled"
+            v-if="!fileData"
             drag
             :multiple="false"
             :headers="headers"
             :before-upload="beforeUpload"
             :show-file-list="false"
             :on-success="onSuccess"
+            :disabled='disabled'
             :accept="accept ? '.jpg,.jpeg,.gif,.png' : '.mp3,.mp4,.wma,.avi,.rm,.rmvb,.flv,.mpg,.mov,.mkv,.flac'"
             action="/manage/universal/upload"
         >

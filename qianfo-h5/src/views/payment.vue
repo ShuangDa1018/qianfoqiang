@@ -42,36 +42,27 @@
         />
       </div>
     </div>
-    <Dialog
-    :show="show"
-     message="是否支付成功" 
-     cancelText="重新支付" 
-     :showCancel="true"
-    confirmText="支付成功"
-    @confirm='show=false'
-    @cancel='show=false'> 
-    </Dialog>
-    <button @click="go" class="button">确定</button>
+    <van-button type="info" @click="go" :loading="loading">确定</van-button>
   </div>
 </template>
 
-// <script src="http://res.wx.qq.com/open/js/jweixin-1.6.0.js" type="text/javascript"></script>
 <script>
-import Dialog from '@/views/common/dialog'
+// import Dialog from '@/views/common/dialog'
 import Vue from "vue";
-import wx from 'weixin-jsapi'
-import { Toast } from "vant";
+import wx from "weixin-jsapi";
+import { Toast, Button } from "vant";
+Vue.use(Button);
 Vue.use(Toast);
 export default {
-  components:{
-    Dialog
+  components: {
+    // Dialog
   },
   data() {
     return {
       isActive: 0,
       addInfo: {
-        paymentMethod:'WECHAT',
-        buddhaHallId:sessionStorage.getItem('buddhaHallId'),
+        paymentMethod: "WECHAT",
+        buddhaHallId: sessionStorage.getItem("buddhaHallId"),
       },
       list: [
         { index: 1, name: "10" },
@@ -81,9 +72,15 @@ export default {
         { index: 5, name: "500" },
         { index: 6, name: "自定义" },
       ],
-      show:false,
-      payData:{}
+      show: false,
+      payData: {},
+      timeout: null,
+      orderId: 1,
+      loading: false,
     };
+  },
+  mounted() {
+    this.isPay();
   },
   methods: {
     check(val) {
@@ -106,43 +103,77 @@ export default {
         return;
       }
       if (this.isActive == 6) {
-        if (!this.check(this.addInfo.price)) {
-          Toast("请输入正确的整数");
-          return;
-        }
+        // if (!this.check(this.addInfo.price)) {
+        //   Toast("请输入正确的整数");
+        //   return;
+        // }
       }
-      this.pay()
-      this.show=true
+      this.loading = true;
+      this.pay();
+      this.show = true;
     },
     // 支付
-    pay(){
-      this.$axios.post('app/user/home/payDonate',this.addInfo).then(res=>{
-         const a=JSON.parse(res.data)
-         wx.config({
-           debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-          appId: 'wx5e4724fa68c00771', // 必填，公众号的唯一标识
-          // timestamp: a.timeStamp, // 必填，生成签名的时间戳
-          // nonceStr: '', // 必填，生成签名的随机串
-          // signature: a.paySign,// 必填，签名
-          jsApiList: ['chooseWXPay'] // 必填，需要使用的JS接口列表
-         })
-         wx.ready(function(){
-          // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
-          console.log(1)
-          wx.chooseWXPay({
-            timestamp: a.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-            nonceStr: a.nonceStr, // 支付签名随机串，不长于 32 位
-            package: a.packageValue, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
-            signType: a.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-            paySign: a.paySign, // 支付签名
-            success: function (res) {
-              // 支付成功后的回调函数
-              console.log('success')
-            }
+    pay() {
+      this.$axios
+        .post("app/user/home/payDonate", this.addInfo)
+        .then((res) => {
+          const a = JSON.parse(res.data);
+          this.orderId = a.orderId;
+          // this.timeout = setInterval(()=>{
+          //   this.isPay()
+          // }, 1000);
+          wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: "wx5e4724fa68c00771", // 必填，公众号的唯一标识
+            // timestamp: a.timeStamp, // 必填，生成签名的时间戳
+            // nonceStr: '', // 必填，生成签名的随机串
+            // signature: a.paySign,// 必填，签名
+            jsApiList: ["chooseWXPay"], // 必填，需要使用的JS接口列表
           });
+          let that = this;
+          wx.ready(function () {
+            // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+            wx.chooseWXPay({
+              timestamp: a.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+              nonceStr: a.nonceStr, // 支付签名随机串，不长于 32 位
+              package: a.packageValue, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+              signType: a.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+              paySign: a.paySign, // 支付签名
+              success: function (res) {
+                // 支付成功后的回调函数
+                that.loading = false;
+                that.isPay();
+              },
+              // 支付取消回调函数
+              cencel: function (res) {
+                that.loading = false;
+                Toast("取消支付~");
+              },
+              // 支付失败回调函数
+              fail: function (res) {
+                that.loading = false;
+                Toast(res);
+              },
+            });
+          });
+        })
+        .catch((arr) => {
+          this.loading = false;
+          Toast("支付失败");
         });
-         
-      })
+    },
+    // 是否支付成功
+    isPay() {
+      let query = {
+        id: this.orderId,
+      };
+      this.$axios.get("/app/transaction/ispay", query).then((res) => {
+        if (res.data) {
+          this.$router.push("/paySuccess");
+        } else {
+          Toast("支付失败");
+        }
+      });
     },
     changePrice(item) {
       this.isActive = item.index;
@@ -152,6 +183,9 @@ export default {
       }
       this.addInfo.price = item.name;
     },
+  },
+  destroyed() {
+    clearInterval(this.timeout);
   },
 };
 </script>
@@ -163,7 +197,7 @@ export default {
   padding: 1rem;
   color: #ffeab8;
   font-size: 14px;
-  background:#b50201 ;
+  background: #b50201;
 }
 .top {
   text-align: left;
@@ -218,7 +252,8 @@ export default {
   background: #ffeab8;
   color: #b50201;
 }
-.button {
+
+/deep/.van-button--info {
   position: fixed;
   width: 100%;
   background: #fbbe0c;
@@ -228,8 +263,7 @@ export default {
   border: 0;
   color: #b50201;
 }
-/deep/.van-dialog{
+/deep/.van-dialog {
   background: #b50201;
 }
-
 </style>

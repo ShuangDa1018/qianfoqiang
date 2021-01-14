@@ -56,6 +56,7 @@ export default {
   },
   watch:{
     isShow(val){
+      console.log(val)
       if(val){
         this.getList()
       }
@@ -74,86 +75,7 @@ export default {
       this.$axios.get('/app/user/home/userBuddha',{params:{buddhaHallId:this.buddhaHallId}}).then(res=>{
           this.list=res.data
           // need delete
-          this.list=[
-                      {
-                "buddhaHallId": 0,
-                "buddhaHallName": "扬中太平寺",
-                "buddhaLanguageClassificationId": 0,
-                "buddhaLanguageClassificationName": "",
-                "buddhaLanguageMethod": "",
-                "buddhaLanguages": [
-                   '李潇潇、莫笑笑、罗欢雨三、李四、王五、莫笑笑、罗欢雨、暂晓晓、李四、王...',
-                   '李潇潇、张、李四、李四、王李、罗欢雨、暂晓晓、李四、王...',
-                  
-                ],
-                "buddhaMusicClassificationId": 0,
-                "buddhaMusicClassificationName": "",
-                "buddhaMusicMethod": "",
-                "buddhaMusics": [],
-                "createTime": "2019-05-22 18:00:00",
-                "expires": "1509898857000",
-                "id": 0,
-                "marquee": "2019-05-22 18:00:00",
-                "name": "佛像名稱",
-                "number": 0,
-                "picture": "~@/assets/images/need-delete.png",
-                "pledgers": [
-                  {
-                    "name": "譚雙12",
-                    "phone": "1898636969",
-                    "userId": 0
-                  },{
-                    "name": "譚雙21",
-                    "phone": "1898636969",
-                    "userId": 0
-                  }
-                ],
-                "presenceStatus": 0,
-                "updateTime": "2019-05-22 18:00:00",
-                "x": 10,
-                "y": 10
-              },
-                 {
-                "buddhaHallId": 0,
-                "buddhaHallName": "扬中太平寺",
-                "buddhaLanguageClassificationId": 0,
-                "buddhaLanguageClassificationName": "",
-                "buddhaLanguageMethod": "",
-                "buddhaLanguages": [
-                    '李潇潇、莫笑笑、罗欢雨三、李四、王五、莫笑笑、罗欢雨、暂晓晓、李四、王...',
-                   '李潇潇、张、李四、李四、王李、罗欢雨、暂晓晓、李四、王...',
-                   '李潇潇、张、李四、李四、王李、罗欢雨、暂晓晓、李四、王...',
-                   '李潇潇、张、李四、李四、王李、罗欢雨、暂晓晓、李四、王...',
-                ],
-                "buddhaMusicClassificationId": 0,
-                "buddhaMusicClassificationName": "",
-                "buddhaMusicMethod": "",
-                "buddhaMusics": [],
-                "createTime": "2019-05-22 18:00:00",
-                "expires": "1609898857000",
-                "id": 0,
-                "marquee": "1609898857000",
-                "name": "佛像名稱",
-                "number": 0,
-                "picture": "~@/assets/images/need-delete.png",
-                "pledgers": [
-                  {
-                    "name": "譚雙1",
-                    "phone": "1898636969",
-                    "userId": 0
-                  },
-                  {
-                    "name": "譚雙",
-                    "phone": "1898636969",
-                    "userId": 0
-                  }
-                ],
-                "presenceStatus": 0,
-                "updateTime": "2019-05-22 18:00:00",
-                "x": 10,
-                "y": 10
-              }
-          ]
+
       })
     },
     myBuddha() {
@@ -191,6 +113,7 @@ export default {
   text-align: center;
   display: flex;
   justify-content: center;
+  /* background: url('~@/assets/images/buddha-all.png') no-repeat center top; */
 }
 img {
   width: 100%;

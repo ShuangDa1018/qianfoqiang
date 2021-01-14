@@ -49,6 +49,24 @@
                         <el-checkbox v-for="item in checkList[1]" :key="item.id" :label="item.content" >{{ item.name }} </el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
+                <el-form-item v-if="!noSave" label="播放开始时间" prop='playStartTime'>
+                       <el-date-picker
+                       style="width: 350px"
+                            v-model="addInfo.playStartTime"
+                            type="datetime"
+                            value-format="timestamp"
+                            align="right">
+                            </el-date-picker>
+                </el-form-item>
+                 <el-form-item v-if="!noSave" label="播放结束时间" prop='playEndTime'>
+                       <el-date-picker
+                            style="width: 350px"
+                            v-model="addInfo.playEndTime"
+                            type="datetime"
+                            value-format="timestamp"
+                            align="right">
+                            </el-date-picker>
+                </el-form-item>
                 <div v-if="!noSave" class="footer-button">
                     <el-button :loading='loading' type="primary" @click="save">保存</el-button>
                     <el-button :loading='loading' @click="$emit('getFestical')">取消</el-button>
@@ -85,7 +103,9 @@ export default {
             //佛乐分类  佛乐  祝福语分类  祝福语
             rules: {
                 buddhaMusicMethod: [{ required: true, message: '请选择佛乐播放方式', trigger: 'blur' }],
-                buddhaLanguageMethod: [{ required: true, message: '请选择祝福语播放方式', trigger: 'blur' }]
+                buddhaLanguageMethod: [{ required: true, message: '请选择祝福语播放方式', trigger: 'blur' }],
+                playStartTime: [{ required: true, message: '请选择开始时间', trigger: 'blur' }],
+                playEndTime: [{ required: true, message: '请选择介绍时间', trigger: 'blur' }]
             }
         };
     },
@@ -146,7 +166,9 @@ export default {
                 this.$message.success('保存成功');
                 this.$emit('getFestical')
                 this.loading=false
-            });
+            }).catch(arr=>{
+                this.loading=false
+            })
         },
         // 获取佛乐
         getOptions2(url, id, type, i) {

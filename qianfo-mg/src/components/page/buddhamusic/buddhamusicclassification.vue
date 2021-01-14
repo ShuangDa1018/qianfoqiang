@@ -39,6 +39,12 @@ export default {
         Dialog: () => import('@/components/view/dialog')
     },
     data() {
+        let check = (rule, value, callback)=>{
+            if(this.$filter.checkPositiveInteger(value)){
+                callback()
+                return
+            }callback( new Error('请输入正确的正整数'))
+        }
         return {
             dataUrl: '/buddhamusicclassification',
             showStatus: false,
@@ -46,7 +52,8 @@ export default {
             addInfo: {},
             rules: {
                 name: [{ required: true, message: '请输入分类名称', trigger: 'blur' }],
-                sort: [{ required: true, message: '请输入排序', trigger: 'blur' }],
+                sort: [{ required: true, message: '请输入排序', trigger: 'blur' },
+                {validator:check,trigger:'blur'}],
             }
         };
     },

@@ -44,14 +44,14 @@
                                 :checked="role.check"
                                 @change="onRoleChange($event, role)"
                             ></el-checkbox>
-                            <div style="color:#999">总平台超级管理员选择</div>
                         </div>
+                        <div style="color:#999">选择用户角色（权限）（总平台管理员选择）</div>
                     </el-form-item>
                      <el-form-item label="子平台管理员">
-                        <el-select v-model="manager.buddhaHallId"  filterable  style="width:100%">
+                        <el-select v-model="manager.buddhaHallId"  filterable  style="width:100%" :disabled='manager.roles&&manager.roles.length?true:false'>
                             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>
-                        <div style="color:#999">子平台超级管理员选择</div>
+                        <div style="color:#999">子平台超级管理员选择（确定后，不可再修改为总平台管理员）</div>
                     </el-form-item>
                     <!-- <el-button type="primary" @click="saveManager" :loading="manager.loading">保存</el-button> -->
                 </el-form>
@@ -156,6 +156,14 @@ export default {
                          {key:'SUPER_MANAGER',name:'超级管理员',color:'#67c23a'},
                          {key:'MANAGER',name:'总平台管理员'},
                     ]
+                }
+                if(it.key=='active'||it.key=='buddhaHallId'){
+                    it.displayInList=false
+                    it.searchable=false
+                }if(it.key=='buddhaHallName'){
+                    it.displayInList=true
+                    it.name="管理佛殿名称"
+                    it.sort=7
                 }
             })
         },

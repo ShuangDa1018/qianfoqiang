@@ -115,7 +115,7 @@
 
             <div class="opeart-btn">
                 <el-button @click="goBack" v-if="!disabled">返回</el-button>
-                <el-button type="primary" @click="save">保存</el-button>
+                <el-button type="primary" @click="save" :loading="loading">保存</el-button>
             </div>
         </div>
         <!-- <div class="demo" v-if="maxWidth" :style="{ width: 100 - maxWidth + '%' }"></div> -->
@@ -284,6 +284,7 @@ export default {
 
     data() {
         return {
+            loading:false,
             disabled: false,
             url: '',
             backUrl: '', //跳转回去的路径
@@ -405,14 +406,18 @@ export default {
                             mchKey:info.mchKey
                         }
                     }
+                    this.loading=true
                     this.$axios[this.request ? (info.id ? 'put' : 'post') : 'post'](this.url, {
                         ...info
                     }).then((res) => {
+                        this.loading=false
                         this.$message.success(info.id ? '编辑成功' : '添加成功');
                         if (!this.disabled) {
                             this.goBack();
                         }
-                    });
+                    }).cathc(()=>{
+                        this.loading=false
+                    })
                 }
             });
         },

@@ -6,6 +6,7 @@
             @create="edit"
             @edit="edit"
             @delete='doDelete'
+            @meta="meta"
             ref="list"
         >
         </List>
@@ -46,6 +47,12 @@ export default {
         Dialog: () => import('@/components/view/dialog')
     },
     data() {
+        let check = (rule, value, callback)=>{
+            if(this.$filter.checkPositiveInteger(value)){
+                callback()
+                return
+            }callback( new Error('请输入正确的正整数'))
+        }
         return {
             dataUrl: '/buddhalanguage',
             showStatus: false,
@@ -55,7 +62,8 @@ export default {
             rules: {
                 name: [{ required: true, message: '请输入标题', trigger: 'blur' }],
                 buddhaLanguageClassificationName: [{ required: true, message: '请输入分类', trigger: 'blur' }],
-                sort: [{ required: true, message: '请输入排序', trigger: 'blur' }],
+                sort: [{ required: true, message: '请输入排序', trigger: 'blur' },
+                {validator:check,trigger:'blur'}],
                 content: [{ required: true, message: '请输入内容', trigger: 'blur' }]
             }
         };
@@ -72,8 +80,15 @@ export default {
         this.getOptions()
     },
     methods: {
+        meta(meta){
+            meta.subs.forEach(it=>{
+                if(it.key=='buddhaLanguageClassificationId'){
+                    it.optionsUrl="universal/buddhaLanguageClassificationList"
+                }
+            })
+        },
         getOptions(){
-            this.$axios.get('/buddhalanguageclassification').then(res=>{
+            this.$axios.get('/universal/buddhaLanguageClassificationList').then(res=>{
                 this.options=res.content.map(it=>{
                     return { label:it.name,value:it.id}
                 })

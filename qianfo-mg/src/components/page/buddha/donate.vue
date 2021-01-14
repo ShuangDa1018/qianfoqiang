@@ -50,6 +50,12 @@ export default {
                 if(it.key=='buddhaHallId'){
                     it.optionsUrl='universal/buddhahalllist'
                 }
+                if(it.key=='paymentMethod'){
+                    // it.se
+                }
+                if(it.key=='buddhaId'){
+                    it.displayInList=false
+                }
             });
             
         },

@@ -4,63 +4,63 @@
             <el-form>
                 <div v-for="(item, index) in meta" :key="index">
                     <div class="form-box-title" v-if="!item.hide && item.title">{{ item.name }}</div>
-                    <el-form-item
-                        :label="item.name"
-                        :label-width="setting.labelWidth+'px'"
-                        v-if="!item.hide && !item.title"
-                    >
-                        <div v-if="item.type=='TEXT'||!item.type">
-                            <div v-if="detailInfo[item.key]">{{detailInfo[item.key]}}{{item.unit}}</div>
+                    <el-form-item :label="item.name" :label-width="setting.labelWidth + 'px'" v-if="!item.hide && !item.title">
+                        <div v-if="item.type == 'TEXT' || !item.type">
+                            <div v-if="detailInfo[item.key]">{{ detailInfo[item.key] }}{{ item.unit }}</div>
                             <div v-else>无</div>
                         </div>
-                        <div
-                            v-if="item.type=='MAP'"
-                            :style="{color:item.color?item.color:item.map[detailInfo[item.key]].color}"
-                        >{{item.map[detailInfo[item.key]].name}}</div>
-                        <div
-                            v-if="item.type=='TIME' && !item.hide"
-                        >{{detailInfo[item.key]|dateTime}}</div>
-                        <div v-if="item.type=='ARRAY'">
-                            {{detailInfo[item.key].toString() }}
+                        <div v-if="item.type == 'JSON'">
+                            <div v-for="(i, j) in detailInfo[item.key]" :key="j">
+                                <div style="display: flex; justify-content: sapce-around; align-items: center">
+                                    <span style="display: inline-block; min-width: 120px"
+                                        ><span class="json-name">姓名：</span>{{ i.name }}
+                                    </span>
+                                    <span style="min-width: 120px"><span class="json-name"> 电话：</span> {{ i.phone }}</span>
+                                </div>
+                            </div>
                         </div>
-                        <div
-                            v-if="item.type=='DATE' && !item.hide"
-                        >{{detailInfo[item.key]|dateTime([])}}</div>
-                        <div
-                            v-if="item.type=='DATETIME' && !item.hide"
-                        >{{detailInfo[item.key]|dateTime(['h','m'])}}</div>
-                        <div v-if="item.type=='IMAGE'&&!item.hide">
+                        <div v-if="item.type=='MUSICA'">
+                            <Audio style="width:50%" v-for="(d,j) in detailInfo[item.key]" :key="j" :src="d" ></Audio>
+                        </div>
+                        <div v-if="item.type == 'MAP'" :style="{ color: item.color ? item.color : item.map[detailInfo[item.key]].color }">
+                            {{ item.map[detailInfo[item.key]].name }}
+                        </div>
+                        <div v-if="item.type == 'TIME' && !item.hide">{{ detailInfo[item.key] | dateTime }}</div>
+                        <!-- <div v-if="item.type == 'ARRAY'">
+                            {{ detailInfo[item.key].toString() }}
+                        </div> -->
+
+                        <div v-if="item.type == 'DATE' && !item.hide">{{ detailInfo[item.key] | dateTime([]) }}</div>
+                        <div v-if="item.type == 'DATETIME' && !item.hide">{{ detailInfo[item.key] | dateTime(['h', 'm']) }}</div>
+                        <div v-if="item.type == 'IMAGE' && !item.hide">
                             <el-image
                                 fit="cover"
                                 :src="detailInfo[item.key]"
                                 :preview-src-list="[detailInfo[item.key]]"
-                                style="width:4rem;height:4rem;"
+                                style="width: 4rem; height: 4rem"
                             />
                         </div>
-                        <div v-if="item.type=='IMAGES'&&!item.hide">
-                            <template v-for="(it,ix) in detailInfo[item.key]">
+                        <div v-if="item.type == 'IMAGES' && !item.hide">
+                            <template v-for="(it, ix) in detailInfo[item.key]">
                                 <el-image
                                     fit="cover"
                                     :key="ix"
                                     :src="it[item.imageKey]"
-                                    :preview-src-list="detailInfo[item.key].map(it=>{return it[item.imageKey]})"
-                                    style="width:4rem;height:4rem;"
-                                    :class="ix<(detailInfo[item.key].length-1)?'margin-right-10':''"
+                                    :preview-src-list="
+                                        detailInfo[item.key].map((it) => {
+                                            return it[item.imageKey];
+                                        })
+                                    "
+                                    style="width: 4rem; height: 4rem"
+                                    :class="ix < detailInfo[item.key].length - 1 ? 'margin-right-10' : ''"
                                 />
-                                {{it[item.imageKey]}}
+                                {{ it[item.imageKey] }}
                             </template>
                         </div>
-                        <div v-if="(item.type=='COMMODITY'||item.type=='SERVICE') && !item.hide">
-                            <div
-                                class="commodty-item"
-                                v-for="(item,index) in detailInfo[item.key]"
-                                :key="index"
-                            >
+                        <div v-if="(item.type == 'COMMODITY' || item.type == 'SERVICE') && !item.hide">
+                            <div class="commodty-item" v-for="(item, index) in detailInfo[item.key]" :key="index">
                                 <div class="coverPicture">
-                                    <el-image
-                                        :src="item.coverPicture"
-                                        :preview-src-list="[item.coverPicture]"
-                                    >
+                                    <el-image :src="item.coverPicture" :preview-src-list="[item.coverPicture]">
                                         <div slot="placeholder" class="image-slot">
                                             加载中
                                             <span class="dot">...</span>
@@ -68,34 +68,35 @@
                                     </el-image>
                                 </div>
                                 <div class="commodity-info">
-                                    <div class="info-name">{{item.name}}</div>
-                                    <div class="info-sku">{{item.sku||item.color}}</div>
+                                    <div class="info-name">{{ item.name }}</div>
+                                    <div class="info-sku">{{ item.sku || item.color }}</div>
                                 </div>
                                 <div class="commodity-number">
-                                    <div class="number-price">￥{{item.price}}</div>
-                                    <div class="number-text">x {{item.number}}</div>
+                                    <div class="number-price">￥{{ item.price }}</div>
+                                    <div class="number-text">x {{ item.number }}</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div v-if="item.type=='PATH'">
+                        <div v-if="item.type == 'PATH'">
                             <el-timeline>
                                 <el-timeline-item
                                     icon="el-icon-location-information"
                                     color="#67C23A"
                                     size="large"
-                                    v-for="(item,index) in detailInfo[item.key]"
+                                    v-for="(item, index) in detailInfo[item.key]"
                                     :key="index"
                                 >
                                     <el-card>
-                                        <p>第{{item.number}}站</p>
-                                        <h4>{{item.province}}{{item.city}}{{item.district}}{{item.address}}</h4>
-                                        <p>{{item.note}}</p>
+                                        <p>第{{ item.number }}站</p>
+                                        <h4>{{ item.province }}{{ item.city }}{{ item.district }}{{ item.address }}</h4>
+                                        <p>{{ item.note }}</p>
                                     </el-card>
                                 </el-timeline-item>
                             </el-timeline>
                         </div>
                     </el-form-item>
+                    <div></div>
                 </div>
             </el-form>
         </div>
@@ -116,6 +117,9 @@
  */
 export default {
     props: ['setting'],
+    components:{
+        Audio:()=>import('@/components/view/audio')
+    },
     data() {
         return {
             detailInfo: {},
@@ -201,6 +205,7 @@ img-list {
     // height: calc(100vh - 230px) !important;
     // overflow: auto;
     width: 100%;
+    margin-bottom: 10px;
     .form-box-title {
         font-size: 14px;
         font-weight: bold;
@@ -322,9 +327,9 @@ img-list {
         }
     }
 }
-.add-container{
-    border:0;
-    padding:0;
-    padding-left:20px
+.add-container {
+    border: 0;
+    padding: 0;
+    padding-left: 20px;
 }
 </style>
